@@ -1,0 +1,5 @@
+www.google.com:443
+www.example.com:443
+www.discovery.co.za:443
+billing.sautech.co.za:443
+

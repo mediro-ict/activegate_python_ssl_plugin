@@ -1,0 +1,41 @@
+{
+	"name": "custom.remote.python.ssl_events",
+	"version": "1.010",
+	"type": "python",
+	"entity": "CUSTOM_DEVICE",
+	"metricGroup": "tech.Demo_Technology",
+	"processTypeNames": ["PYTHON"],
+	"technologies": ["ActiveGate SSL Monitor"],
+	"favicon": "https://lh3.googleusercontent.com/gN6iBKP1b2GTXZZoCxhyXiYIAh8QJ_8xzlhEK6csyDadA4GdkEdIEy9Bc8s5jozt1g=w300",
+	"source": {
+		"package": "activegate_plugin_certs",
+		"className": "CertsPluginRemote",
+		"install_requires": ["requests>=2.6.0","click","pyopenssl"],
+		"activation": "Remote"
+	},
+	"configUI": {
+		"displayName": "ActiveGate SSL - Events",
+		"properties": [{
+			"key": "period",
+			"displayName": "Period",
+			"displayHint": "Days"
+		}]
+	},
+	"properties": [{
+		"key": "period",
+		"type": "Integer",
+        "defaultValue": 14
+	}],
+	"metrics": [{
+			"entity": "CUSTOM_DEVICE",
+			"timeseries": {
+				"key": "counter",
+				"unit": "Count",
+				"displayname": "Counter"
+			}
+		}
+	],
+	"ui": {
+
+	}
+}

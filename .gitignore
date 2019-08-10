@@ -1,0 +1,4 @@
+deploy/
+deploy/*
+*.log
+*.pyc
