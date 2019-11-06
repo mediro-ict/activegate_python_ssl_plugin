@@ -2,3 +2,4 @@ deploy/
 deploy/*
 *.log
 *.pyc
+plugin_deployment/*

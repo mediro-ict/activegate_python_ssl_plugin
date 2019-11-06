@@ -19,7 +19,7 @@ class CertsPluginRemote(RemoteBasePlugin):
         self.period = config["period"]
         self.default_expiry_warn = self.period
         self.domains = list(check_tls_certs.itertools.chain(
-        check_tls_certs.domain_definitions_from_filename(self.path + "\hosts.txt")))
+        check_tls_certs.domain_definitions_from_filename(self.path + "/hosts.txt")))
         self.domain_certs = check_tls_certs.get_domain_certs(self.domains)
         self.exceptions = list(x for x in self.domain_certs.values() if isinstance(x, Exception))
         self.total_warnings = 0
