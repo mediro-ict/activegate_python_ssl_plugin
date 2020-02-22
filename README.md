@@ -1,6 +1,6 @@
-"# activegate_python_ssl_plugin" 
+# Actvice Gate SSL Checker Plugin
 
-This plugin checks the SSL certificates of host in the hosts.txt file and logs problems on Dyantrace if the certificate is aout to expire.
+This plugin checks the SSL certificates of hosts in the hosts.txt file and logs problems on Dyantrace if the certificate is about to expire.
 
 ![SSLCert](/images/problem.png)
 
@@ -22,7 +22,7 @@ This is why you need to install, in addition to your Tenant, on selected ActiveG
 
 ## Troubleshooting
 Windows AG
-Check the Remote plugin module logs in TBA
+Check the Remote plugin module logs in C:\ProgramData\dynatrace\remotepluginmodule\log\remoteplugin
 
 Linux AG
 Check the Remote plugin module logs in : /var/lib/dynatrace/remotepluginmodule/log/remoteplugin
