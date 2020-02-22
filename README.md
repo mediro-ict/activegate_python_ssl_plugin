@@ -1,4 +1,4 @@
-# Actvice Gate SSL Checker Plugin
+# Active Gate SSL Checker Plugin
 
 This plugin checks the SSL certificates of hosts in the hosts.txt file and logs problems on Dyantrace if the certificate is about to expire.
 
