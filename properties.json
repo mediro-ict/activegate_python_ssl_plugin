@@ -1,3 +1,4 @@
 {
-  "period": 14
+  "period": 300,
+  "hosts": "www.example.com:443,google.com"
 }

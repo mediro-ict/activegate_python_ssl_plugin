@@ -258,6 +258,7 @@ def domain_definitions_from_filename(filename):
 
 def domain_definitions_from_cli(domains):
     result = []
+   
     if not domains:
         return result
     for domain in domains:

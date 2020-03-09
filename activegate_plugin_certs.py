@@ -11,7 +11,8 @@ import requests
 from ruxit.api.base_plugin import RemoteBasePlugin
 import logging
 import check_tls_certs
-import datetime
+import datetime 
+from datetime import datetime as timedelta
 import os
 from ruxit.api.data import StatCounterDataPoint
 
@@ -25,9 +26,36 @@ class CertsPluginRemote(RemoteBasePlugin):
         logger.info("Config: %s", config)
         self.path = os.getcwd()
         self.period = config["period"]
+        self.hosts = config["hosts"].split(",")
         self.default_expiry_warn = self.period
-        self.domains = list(check_tls_certs.itertools.chain(
-        check_tls_certs.domain_definitions_from_filename(self.path + "/hosts.txt")))
+        self.alert_interval = self.config.get("alert_interval", 10)
+        self.event_interval = self.config.get("event_interval", 3)
+        self.relative_interval = self.config.get("relative_interval", 60)
+        self.state_interval = self.config.get("state_interval", 60)
+
+        self.alert_iterations = 0
+        self.event_iterations = 0
+        self.relative_iterations = 0
+        self.absolute_iterations = 0
+        self.state_iterations = 0
+
+        self.current_entries = 1
+        self.archived_entries = 0
+
+
+
+
+        self.domains = None
+
+        if (self.hosts is not None):
+            self.domains = list(check_tls_certs.itertools.chain(
+                check_tls_certs.domain_definitions_from_cli(self.hosts)))
+        else:
+            self.domains = list(check_tls_certs.itertools.chain(
+                check_tls_certs.domain_definitions_from_filename(self.path + "/hosts.txt")))
+     
+
+
         self.domain_certs = check_tls_certs.get_domain_certs(self.domains)
         self.exceptions = list(x for x in self.domain_certs.values() if isinstance(x, Exception))
         self.total_warnings = 0
@@ -37,6 +65,11 @@ class CertsPluginRemote(RemoteBasePlugin):
         self.checked_domains = check_tls_certs.check_domains(self.domains, self.domain_certs, self.utcnow, expiry_warn=self.default_expiry_warn)
         print(self.checked_domains)
        
+        
+    
+
+
+
         for domainnames, msgs, expiration in self.checked_domains:
             if expiration:
                 print("expiration: " + str(expiration))
@@ -91,7 +124,11 @@ class CertsPluginRemote(RemoteBasePlugin):
         #device = group.create_device(identifier="SSLDevice",
         #                            display_name="SSL Device")
 
-        
+        def days_between(d2):
+            #d1 = datetime.strptime(d1, "%Y-%m-%d")
+            d1 = datetime.datetime.utcnow().date()
+            d2 = datetime.datetime.strptime(d2, '%Y-%m-%d %H:%M:%S').date()
+            return str(abs((d2 - d1).days))  
         
 
         # Push infrastructure problems
@@ -108,13 +145,21 @@ class CertsPluginRemote(RemoteBasePlugin):
             for level, msg in msgs:
                 if level == 'warning' and "The certificate expires" in msg:
                     logger.info("Logging Problem for Domain:%s, Warning:%s", domainnames,msg)
+                    days = days_between(str(expiration))
                     device = group.create_device(identifier= domainnames[0],
                                                  display_name=domainnames[0])
                     logger.info("Topology: group name=%s, node name=%s", group.name, device.name)
-                    device.report_error_event(title="Certificate Expiration Within " + str(self.default_expiry_warn) + " days",
-                                description="The SSL Cerficate is about to expire.",
-                                properties={"exp_Date": str(expiration)})
+                    device.report_error_event(title="Certificate Expiration Within the threshold set: " + str(self.default_expiry_warn) + " days",
+                                description="The SSL Cerficate  will expire in: "+ days + " days",
+                                properties={"exp_date": str(expiration),
 
+                                }
+                                
+                                )
+
+    
+
+   
         # Report problems
         """
         device.report_performance_event(title="Performance Event",

@@ -1,12 +1,12 @@
 {
 	"name": "custom.remote.python.ssl_events",
-	"version": "1.010",
+	"version": "1.013",
 	"type": "python",
 	"entity": "CUSTOM_DEVICE",
-	"metricGroup": "tech.Demo_Technology",
+	"metricGroup": "tech.CertificateCheck",
 	"processTypeNames": ["PYTHON"],
-	"technologies": ["ActiveGate SSL Monitor"],
-	"favicon": "https://lh3.googleusercontent.com/gN6iBKP1b2GTXZZoCxhyXiYIAh8QJ_8xzlhEK6csyDadA4GdkEdIEy9Bc8s5jozt1g=w300",
+	"technologies": ["SSL/TLS Certificates"],
+	"favicon": "https://img.icons8.com/windows/32/000000/tls.png",
 	"source": {
 		"package": "activegate_plugin_certs",
 		"className": "CertsPluginRemote",
@@ -14,24 +14,62 @@
 		"activation": "Remote"
 	},
 	"configUI": {
-		"displayName": "ActiveGate SSL - Events",
-		"properties": [{
+		"displayName": "Certificate Expiry Check - Events",
+		"properties": [
+		{
 			"key": "period",
 			"displayName": "Period",
 			"displayHint": "Days"
-		}]
+		},
+		{
+			"key": "hosts",
+			"displayName": "Hosts",
+			"displayHint": "Comma seperated list of the Host certificates to monitor eg. www.google.com443,www.example.com:443"
+		},
+		{ "key" : "state_interval", "displayName": "State change interval", "displayOrder": 3, "displayHint": "How often state metrics changes", "defaultValue": 60},
+		{ "key" : "alert_interval", "displayName": "Alert interval", "displayOrder": 4, "displayHint": "How often an alert is raised", "defaultValue": 360},
+		{ "key" : "event_interval", "displayName": "Event interval", "displayOrder": 5, "displayHint": "How often an event is raised", "defaultValue": 240},
+		{ "key" : "relative_interval", "displayName": "Relative interval", "displayOrder": 6, "displayHint": "How often relative metric is submitted", "defaultValue": 60}
+	]
 	},
-	"properties": [{
-		"key": "period",
+	"properties": [
+	{ 
+	  "key": "period", 
+	  "type": "Integer", 
+	  "defaultValue": 14
+	},
+	{ 
+		"key": "hosts", 
+		"type": "Textarea"
+	},
+	{
+		"key": "state_interval",
 		"type": "Integer",
-        "defaultValue": 14
-	}],
+		"defaultValue": 60
+	  },
+	  {
+		"key": "alert_interval",
+		"type": "Integer",
+		"defaultValue": 360
+	  },
+	  {
+		"key": "event_interval",
+		"type": "Integer",
+		"defaultValue": 240
+	  },
+	  {
+		"key": "relative_interval",
+		"type": "Integer",
+		"defaultValue": 60
+	  }
+	
+    ],
 	"metrics": [{
 			"entity": "CUSTOM_DEVICE",
 			"timeseries": {
 				"key": "counter",
 				"unit": "Count",
-				"displayname": "Counter"
+				"displayname": "Certificate Expiry Check - Events"
 			}
 		}
 	],
