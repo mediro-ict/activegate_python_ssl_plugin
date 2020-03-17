@@ -1,4 +1,6 @@
 {
-  "period": 300,
-  "hosts": "www.example.com:443,google.com"
+  "poll_interval": 30,
+  "period": 200,
+  "hosts": "www.example.com:443,google.com",
+  "alert_period": 7
 }
