@@ -33,8 +33,8 @@ class CertsPluginRemote(RemoteBasePlugin):
         self.default_expiry_warn = self.period
         self.default_expiry_err = self.alert_period
         
-        self.alert_interval = self.config.get("alert_interval")
-        self.event_interval = self.config.get("event_interval")
+        #self.alert_interval = self.config.get("alert_interval")
+        #self.event_interval = self.config.get("event_interval")
         
         
 
@@ -205,7 +205,7 @@ class CertsPluginRemote(RemoteBasePlugin):
              return True   
 
         return False   
-    
+    """
     def should_create_event(self):
         self.event_iterations = self.event_iterations + 1
         if self.event_iterations > self.event_interval:
@@ -219,5 +219,5 @@ class CertsPluginRemote(RemoteBasePlugin):
             self.alert_iterations = 0
             return True
         return False    
-   
+   """
                
