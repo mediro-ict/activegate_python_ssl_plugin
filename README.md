@@ -15,7 +15,7 @@ ActiveGate Plugins need to get installed both, on you Tenant and on the Environm
 This is why you need to install, in addition to your Tenant, on selected ActiveGates, that have the Remote Plugin module running and are supposed to execute your Plugin.
 
  ### Dynatrace Tenant
-Upload the plugin to your Dynatrace tenant using the GUI: Settings --> Custom Extensions --> Uplood extensions
+Upload the plugin to your Dynatrace tenant using the GUI: Settings --> Custom Extensions --> Upload extensions
  Complete the property fields:
 
  ![SSLCert](/images/plugin_conf.png)
