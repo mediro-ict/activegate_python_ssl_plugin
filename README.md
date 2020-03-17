@@ -17,15 +17,14 @@ This is why you need to install, in addition to your Tenant, on selected ActiveG
  ### Dynatrace Tenant
 Upload the plugin to your Dynatrace tenant using the GUI: Settings --> Custom Extensions --> Uplood extensions
  Complete the property fields:
- 
- ![SSLCert](/images/plugin_conf.png)
 
+ ![SSLCert](/images/plugin_conf.png)
+ 
+ Complete the following fields:
  *Endpoint name: The name of the active gate endpoint
  *Poll Interval: How often a certificate should be checked in minutes
  *Custom Event Period Threshold: Threshold to raise a custom event before expiration in Days
- *Problem Alert Period Threshold: Threshold to raise a Problem event before expiration in Days
- *Hosts: Comma seperated list of the Host certificates to monitor eg. www.google.com443,www.example.com:443
-
+ *Problem Alert Period Threshold: Threshold to raise a Problem event before expiration in Days*Hosts: Comma seperated list of the Host certificates to monitor eg. www.google.com443,www.example.com:443
  *Choose ActiveGate: The Windows or Linux Active Gate that the plugin is running on.
 
  ### Windows AG
