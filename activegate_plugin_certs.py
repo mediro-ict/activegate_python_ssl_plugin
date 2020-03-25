@@ -147,27 +147,31 @@ class CertsPluginRemote(RemoteBasePlugin):
                     if (self.absolute_iterations ==1):
                         print("Iterations: ", self.absolute_iterations)
                         if int(days) > int(self.default_expiry_err) and int(days) <= int(self.default_expiry_warn):
-                            logger.info("Logging Info Event for Domain:%s, Warning:%s", domainnames,msg)
+                            logger.info("Logging Warning Event for Domain:%s, Warning:%s", domainnames,msg)
                             
                             if self.event_type == "Custom Info":
-                               device.report_custom_info_event(title="Certificate Expiration Within the Warning threshold set: " + str(self.default_expiry_warn) + " days",
+                                device.report_custom_info_event(title="WARNING:Certificate Expiration Within the Warning threshold set: " + str(self.default_expiry_warn) + " days",
                                       description="The SSL Cerficate  will expire in: "+ days + " days",
                                       properties={"exp_date": str(expiration),
                                                   "exp_days": str(days)
                                       
                                       }
                                       )
+                                logger.info("Custom Event:%s, Warning:%s", domainnames,msg)
+
                             if self.event_type == "Error":
-                                 device.report_error_event(title="Certificate Expiration Within the Warning threshold set: " + str(self.default_expiry_warn) + " days",
+                                device.report_error_event(title="WARNING:Certificate Expiration Within the Warning threshold set: " + str(self.default_expiry_warn) + " days",
                                       description="The SSL Cerficate  will expire in: "+ days + " days",
                                       properties={"exp_date": str(expiration),
                                                   "exp_days": str(days)   
                                       }
                                       )
+                                logger.info("Error Event:%s, Warning:%s", domainnames,msg)
+
                         else:
                             logger.info("Logging Problem Alert for Domain:%s, Warning:%s", domainnames,msg)
                             logger.info("Topology: group name=%s, node name=%s", group.name, device.name)
-                            device.report_error_event(title="Certificate Expiration Within the Alert threshold set: " + str(self.default_expiry_err) + " days",
+                            device.report_error_event(title="ERROR:Certificate Expiration Within the Alert threshold set: " + str(self.default_expiry_err) + " days",
                                 description="The SSL Cerficate  will expire in: "+ days + " days",
                                 properties={"exp_date": str(expiration),
                                              "exp_days": str(days)
