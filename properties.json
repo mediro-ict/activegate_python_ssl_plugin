@@ -1,6 +1,7 @@
 {
   "poll_interval": 30,
   "period": 200,
+  "event_type": "Custom Info",
   "hosts": "www.example.com:443,google.com",
   "alert_period": 7
 }

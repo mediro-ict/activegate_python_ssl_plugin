@@ -28,7 +28,7 @@ class CertsPluginRemote(RemoteBasePlugin):
         self.period = config["period"]
         self.alert_period = config["alert_period"]
         self.poll_period = config["poll_interval"]
-
+        self.event_type = config["event_type"]
         self.hosts = config["hosts"].split(",")
         self.default_expiry_warn = self.period
         self.default_expiry_err = self.alert_period
@@ -148,14 +148,22 @@ class CertsPluginRemote(RemoteBasePlugin):
                         print("Iterations: ", self.absolute_iterations)
                         if int(days) > int(self.default_expiry_err) and int(days) <= int(self.default_expiry_warn):
                             logger.info("Logging Info Event for Domain:%s, Warning:%s", domainnames,msg)
-                            device.report_custom_info_event(title="Certificate Expiration Within the Warning threshold set: " + str(self.default_expiry_warn) + " days",
+                            
+                            if self.event_type == "Custom Info":
+                               device.report_custom_info_event(title="Certificate Expiration Within the Warning threshold set: " + str(self.default_expiry_warn) + " days",
                                       description="The SSL Cerficate  will expire in: "+ days + " days",
                                       properties={"exp_date": str(expiration),
                                                   "exp_days": str(days)
                                       
                                       }
                                       )
-                                                  
+                            if self.event_type == "Error":
+                                 device.report_error_event(title="Certificate Expiration Within the Warning threshold set: " + str(self.default_expiry_warn) + " days",
+                                      description="The SSL Cerficate  will expire in: "+ days + " days",
+                                      properties={"exp_date": str(expiration),
+                                                  "exp_days": str(days)   
+                                      }
+                                      )
                         else:
                             logger.info("Logging Problem Alert for Domain:%s, Warning:%s", domainnames,msg)
                             logger.info("Topology: group name=%s, node name=%s", group.name, device.name)

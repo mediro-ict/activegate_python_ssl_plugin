@@ -26,18 +26,23 @@
 			"key": "period",
 			"displayName": "Custom Event Period Threshold",
 			"displayOrder": 2,
-			"displayHint": "Threshold to raise a custom event before expiration in Days"
+			"displayHint": "Threshold to raise first custom event before expiration in Days"
+		},
+		{ "key" : "event_type",
+		  "displayName": "Custom Event Type", 
+		  "displayOrder": 3, 
+		  "displayHint": "The Type of event to Raise for first warning event"
 		},
 		{
 			"key": "alert_period",
 			"displayName": "Problem Alert Period Threshold",
-			"displayOrder": 3,
+			"displayOrder": 4,
 			"displayHint": "Threshold to raise a Problem event before expiration in Days"
 		},
 		{
 			"key": "hosts",
 			"displayName": "Hosts",
-			"displayOrder": 4,
+			"displayOrder": 5,
 			"displayHint": "Comma seperated list of the Host certificates to monitor eg. www.google.com443,www.example.com:443"
 		}
 	]
@@ -53,6 +58,12 @@
 	  "type": "Integer", 
 	  "defaultValue": 14
 	},
+	{ 
+		"key": "event_type", 
+		"type": "Dropdown", 
+		"dropdownValues":["Error","Custom Info"]
+	  },
+	
 	{ 
 		"key": "hosts", 
 		"type": "Textarea"
