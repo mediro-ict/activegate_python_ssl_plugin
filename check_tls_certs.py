@@ -7,6 +7,9 @@ import socket
 import sys
 import traceback
 import OpenSSL
+import smtplib,ssl
+import pem
+
 
 
 default_expiry_warn = 14
@@ -57,13 +60,25 @@ def fatal(msg):
 
 
 def _get_cert_from_domain(domain):
-    ctx = OpenSSL.SSL.Context(OpenSSL.SSL.SSLv23_METHOD)
-    sock = socket.socket()
-    sock.settimeout(5)
-    wrapped_sock = OpenSSL.SSL.Connection(ctx, sock)
-    wrapped_sock.set_tlsext_host_name(domain.encode('ascii'))
-    wrapped_sock.connect((domain.connection_host, domain.port))
-    while True:
+    if domain.port == 587:
+    
+      connection = smtplib.SMTP() 
+      connection.connect(domain.connection_host,domain.port)
+      connection.starttls()
+      bb = ssl.DER_cert_to_PEM_cert(connection.sock.getpeercert(binary_form=True))
+      root_cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, bb)
+      sname= []
+      sname.append(root_cert)
+      return sname
+
+    else:
+      ctx = OpenSSL.SSL.Context(OpenSSL.SSL.SSLv23_METHOD)
+      sock = socket.socket()
+      sock.settimeout(5)
+      wrapped_sock = OpenSSL.SSL.Connection(ctx, sock)
+      wrapped_sock.set_tlsext_host_name(domain.encode('ascii'))
+      wrapped_sock.connect((domain.connection_host, domain.port))
+      while True:
         try:
             wrapped_sock.do_handshake()
             break
