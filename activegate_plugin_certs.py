@@ -168,7 +168,7 @@ class CertsPluginRemote(RemoteBasePlugin):
                                       )
                                 logger.info("Error Event:%s, Warning:%s", domainnames,msg)
 
-                        else:
+                        elif int(days) <= int(self.default_expiry_err):
                             logger.info("Logging Problem Alert for Domain:%s, Warning:%s", domainnames,msg)
                             logger.info("Topology: group name=%s, node name=%s", group.name, device.name)
                             device.report_error_event(title="ERROR:Certificate Expiration Within the Alert threshold set: " + str(self.default_expiry_err) + " days",
