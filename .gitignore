@@ -3,3 +3,4 @@ deploy/*
 *.log
 *.pyc
 plugin_deployment/*
+.vscode/settings.json

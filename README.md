@@ -1,13 +1,13 @@
 # Active Gate SSL Checker Plugin
 
-This plugin checks the SSL certificates of hosts in the hosts.txt file and logs problems on Dyantrace if the certificate is about to expire.
+This plugin checks the SSL certificates of hosts in the hosts.txt file and the hosts entered from the GUI, and logs problems on Dyantrace if the certificate is about to expire.
 
 ![SSLCert](/images/problem.png)
 
 ![SSLCert](/images/custom_event1.png)
 
 ## Requirements
-This plugin requires at least Dynatrace Active Gate v1.185.137
+This plugin requires at least Dynatrace Active Gate v1.199.101
 Download the latest zip for your ActiveGate here: https://github.com/mediro-ict/activegate_python_ssl_plugin/releases
 
 ## Installation
@@ -43,6 +43,7 @@ Upload the plugin to your Dynatrace tenant using the GUI: Settings --> Custom Ex
 
 ### Windows AG
 Check the Remote plugin module logs in C:\ProgramData\dynatrace\remotepluginmodule\log\remoteplugin
+and C:\ProgramData\dynatrace\remotepluginmodule\log\remoteplugin\custom.remote.python.ssl_events
 
 ### Linux AG
 Check the Remote plugin module logs in : /var/lib/dynatrace/remotepluginmodule/log/remoteplugin
