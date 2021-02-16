@@ -1,6 +1,6 @@
 {
 	"name": "custom.remote.python.ssl_events",
-	"version": "1.016",
+	"version": "1.017",
 	"type": "python",
 	"entity": "CUSTOM_DEVICE",
 	"metricGroup": "tech.CertificateCheck",
@@ -10,7 +10,7 @@
 	"source": {
 		"package": "activegate_plugin_certs",
 		"className": "CertsPluginRemote",
-		"install_requires": ["requests>=2.6.0","click","pyopenssl"],
+		"install_requires": ["requests","click","pyopenssl","cffi","cryptography"],
 		"activation": "Remote"
 	},
 	"configUI": {
@@ -28,6 +28,11 @@
 			"displayOrder": 2,
 			"displayHint": "Threshold to raise first custom event before expiration in Days"
 		},
+		{ "key" : "show_checks",
+			"displayName": "Show Checks", 
+			"displayOrder": 3, 
+			"displayHint": "Display the host that was checked, even if the certifcate is not about to expire"
+		  },
 		{ "key" : "event_type",
 		  "displayName": "Custom Event Type", 
 		  "displayOrder": 3, 
@@ -58,6 +63,12 @@
 	  "type": "Integer", 
 	  "defaultValue": 14
 	},
+	{ 
+		"key": "show_checks", 
+		"type": "Boolean", 
+		"defaultValue": true
+	  },
+	  
 	{ 
 		"key": "event_type", 
 		"type": "Dropdown", 

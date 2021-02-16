@@ -1,7 +1,8 @@
 {
   "poll_interval": 30,
-  "period": 200,
+  "period": 14,
+  "show_checks": true,
   "event_type": "Error",
-  "hosts": "www.example.com:443,google.com",
+  "hosts": "dev.vitalitydeveloper.com,google.com",
   "alert_period": 7
 }

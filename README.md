@@ -24,17 +24,19 @@ Upload the plugin to your Dynatrace tenant using the GUI: Settings --> Custom Ex
  * Endpoint name: The name of the active gate endpoint
  * Poll Interval: How often a certificate should be checked in minutes
  * Custom Event Period Threshold: Threshold to raise a custom event before expiration in Days
- * Problem Alert Period Threshold: Threshold to raise a Problem event before expiration in Days*Hosts: Comma seperated list of the Host certificates to monitor eg. www.google.com443,www.example.com:443
+ * Show Checks: Display that host was checked even if no threshold was breached, this adds a annotation event for a host checked on everytime the plugin is triggered.
+ * Problem Alert Period Threshold: Threshold to raise a Problem event before expiration in Days
+ * Hosts: Comma seperated list of the Host certificates to monitor eg. www.google.com443,www.example.com:443
  * Choose ActiveGate: The Windows or Linux Active Gate that the plugin is running on.
 
  ### Windows AG
  Unzip the plugin's zip file in the C:\Program Files\Dynatrace\remotepluginmodule\plugin_deployment folder
- Move the hosts.txt file to the C:\Program Files\Dynatrace\remotepluginmodule\agent\lib64  folder.
+ *** Optional: *** If you prefer using a list of hosts in a text file, Move the hosts.txt file to the C:\Program Files\Dynatrace\remotepluginmodule\agent\lib64  folder.
  Restart the AG Service
 
  ### Linux AG 
  Unzip the plugin's zip file in the opt/dynatrace/remotepluginmodule/plugin_deployment directory.
- Move the hosts.txt file to the /opt/dynatrace/remotepluginmodule/agent/lib64/ directory.
+ *** Optional: *** If you prefer using a list of hosts in a text file, Move the hosts.txt file to the /opt/dynatrace/remotepluginmodule/agent/lib64/ directory.
 
  Restart The Remote plugin service : service remotepluginmodule restart
 

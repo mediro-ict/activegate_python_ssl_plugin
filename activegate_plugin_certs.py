@@ -29,6 +29,7 @@ class CertsPluginRemote(RemoteBasePlugin):
         self.alert_period = config["alert_period"]
         self.poll_period = config["poll_interval"]
         self.event_type = config["event_type"]
+        self.show_checks = config["show_checks"]
         self.hosts = config["hosts"].split(",")
         self.default_expiry_warn = self.period
         self.default_expiry_err = self.alert_period
@@ -73,7 +74,7 @@ class CertsPluginRemote(RemoteBasePlugin):
 
         for domainnames, msgs, expiration in self.checked_domains:
             if expiration:
-                print("expiration: " + str(expiration))
+                print("expiration1: " + str(expiration))
                 if self.earliest_expiration is None or expiration < self.earliest_expiration:
                    self.earliest_expiration = expiration
             warnings = 0
@@ -131,17 +132,20 @@ class CertsPluginRemote(RemoteBasePlugin):
         
         for domainnames, msgs, expiration in self.checked_domains:
             if expiration:
-                print("expiration: " + str(expiration))
+                
                 if self.earliest_expiration is None or expiration < self.earliest_expiration:
                    self.earliest_expiration = expiration
+                print("expiration: " + str(expiration))   
             warnings = 0
             errors = 0
             domain_msgs = [', '.join(domainnames)]
             print("domainnames: ", domainnames)
+            days = days_between(str(expiration))
             for level, msg in msgs:
+                
                 if level == 'warning' and "The certificate expires" in msg:
                    
-                    days = days_between(str(expiration))
+                    #days = days_between(str(expiration))
                     device = group.create_device(identifier= domainnames[0],
                                                  display_name=domainnames[0])
                     if (self.absolute_iterations ==1):
@@ -178,8 +182,20 @@ class CertsPluginRemote(RemoteBasePlugin):
                                 }
                                 
                                 )
+                               
                     else:
                         logger.info("Event not being logged to prevent spam:%s",self.absolute_iterations)
+                        
+                       
+                elif int(days) > int(self.default_expiry_warn) and "Valid until" in msg and self.show_checks == True and self.absolute_iterations ==1:
+                    device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
+                    device.report_custom_annotation_event(description="Certificate for "+ domainnames[0] +" Checked",source=msg)
+                    print(self.absolute_iterations)
+
+                    
+                     
+
+
     
     def poll_hosts(self):
         if (self.hosts is not None):
