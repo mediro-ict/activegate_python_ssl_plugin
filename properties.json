@@ -3,6 +3,6 @@
   "period": 14,
   "show_checks": true,
   "event_type": "Error",
-  "hosts": "dev.vitalitydeveloper.com,google.com",
+  "hosts": "",
   "alert_period": 7
 }

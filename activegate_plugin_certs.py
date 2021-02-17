@@ -140,12 +140,12 @@ class CertsPluginRemote(RemoteBasePlugin):
             errors = 0
             domain_msgs = [', '.join(domainnames)]
             print("domainnames: ", domainnames)
-            days = days_between(str(expiration))
+            #days = days_between(str(expiration))
             for level, msg in msgs:
                 
                 if level == 'warning' and "The certificate expires" in msg:
                    
-                    #days = days_between(str(expiration))
+                    days = days_between(str(expiration))
                     device = group.create_device(identifier= domainnames[0],
                                                  display_name=domainnames[0])
                     if (self.absolute_iterations ==1):
@@ -187,10 +187,14 @@ class CertsPluginRemote(RemoteBasePlugin):
                         logger.info("Event not being logged to prevent spam:%s",self.absolute_iterations)
                         
                        
-                elif int(days) > int(self.default_expiry_warn) and "Valid until" in msg and self.show_checks == True and self.absolute_iterations ==1:
-                    device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
-                    device.report_custom_annotation_event(description="Certificate for "+ domainnames[0] +" Checked",source=msg)
-                    print(self.absolute_iterations)
+                elif "Valid until" in msg and self.show_checks == True and self.absolute_iterations ==1:
+                    days = days_between(str(expiration))
+                    if int(days) > int(self.default_expiry_warn):
+                        device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
+                        device.report_custom_annotation_event(description="Certificate for "+ domainnames[0] +" Checked",source=msg)
+                        print(self.absolute_iterations)
+                else:
+                    logger.info("error occured:%s",msg)   
 
                     
                      
@@ -198,13 +202,16 @@ class CertsPluginRemote(RemoteBasePlugin):
 
     
     def poll_hosts(self):
-        if (self.hosts is not None):
-            logger.info("Polling hosts")
+        if (not self.hosts.count("") > 0 and self.hosts is not None):
+            logger.info("Polling %s hosts",len(self.hosts))
             self.domains = list(check_tls_certs.itertools.chain(
                 check_tls_certs.domain_definitions_from_cli(self.hosts)))
+            logger.info("Using Host list from plugin config:%s",self.hosts)
+            
         else:
             self.domains = list(check_tls_certs.itertools.chain(
                 check_tls_certs.domain_definitions_from_filename(self.path + "/hosts.txt")))
+            logger.info("Using Host list from hosts.txt file")    
      
         logger.info("Iterations:%s",self.absolute_iterations)
         

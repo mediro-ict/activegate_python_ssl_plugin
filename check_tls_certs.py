@@ -8,6 +8,7 @@ import sys
 import traceback
 import OpenSSL
 import smtplib,ssl
+import struct
 
 
 
@@ -60,6 +61,15 @@ def fatal(msg):
 
 
 def _get_cert_from_domain(domain):
+    
+    if domain.port == 5445:
+        sock = socket.create_connection((domain.host,domain.port))
+        certificate_as_pem = get_certificate_from_socket(sock)
+        root_cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, certificate_as_pem)
+        sname= []
+        sname.append(root_cert)
+        return sname
+        
     if domain.port == 587:
     
       connection = smtplib.SMTP() 
@@ -284,6 +294,33 @@ def domain_definitions_from_cli(domains):
         result.append(domain_definition)
     return result
 
+def request_ssl(sock):
+    # 1234.5679 is the magic protocol version used to request TLS, defined
+    # in pgcomm.h)
+    version_ssl = postgres_protocol_version_to_binary(1234, 5679)
+    length = struct.pack('!I', 8)
+    packet = length + version_ssl
+
+def postgres_protocol_version_to_binary(major, minor):
+    return struct.pack('!I', major << 16 | minor)
+
+def get_certificate_from_socket(sock):
+    request_ssl(sock)
+    ssl_context = get_ssl_context()
+    sock = ssl_context.wrap_socket(sock)
+    sock.do_handshake()
+    certificate_as_der = sock.getpeercert(binary_form=True)
+    #certificate_as_pem = encode_der_as_pem(certificate_as_der)
+    certificate_as_pem = ssl.DER_cert_to_PEM_cert(sock.getpeercert(binary_form=True))
+    return certificate_as_pem
+
+def get_ssl_context():
+    # Return the strongest SSL context available locally
+    for proto in ('PROTOCOL_TLSv1_2', 'PROTOCOL_TLSv1', 'PROTOCOL_SSLv23'):
+        protocol = getattr(ssl, proto, None)
+        if protocol:
+            break
+    return ssl.SSLContext(protocol)
 
 @click.command()
 @click.option('-f', '--file', metavar='FILE', help='File to read domains from. One per line.')
