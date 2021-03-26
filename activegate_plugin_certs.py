@@ -143,12 +143,16 @@ class CertsPluginRemote(RemoteBasePlugin):
             #days = days_between(str(expiration))
             for level, msg in msgs:
                 
+                    
+                
                 if level == 'warning' and "The certificate expires" in msg:
                    
                     days = days_between(str(expiration))
+                    
                     device = group.create_device(identifier= domainnames[0],
                                                  display_name=domainnames[0])
                     if (self.absolute_iterations ==1):
+                        
                         print("Iterations: ", self.absolute_iterations)
                         if int(days) > int(self.default_expiry_err) and int(days) <= int(self.default_expiry_warn):
                             logger.info("Logging Warning Event for Domain:%s, Warning:%s", domainnames,msg)
@@ -193,6 +197,15 @@ class CertsPluginRemote(RemoteBasePlugin):
                         device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
                         device.report_custom_annotation_event(description="Certificate for "+ domainnames[0] +" Checked",source=msg)
                         print(self.absolute_iterations)
+                
+                elif "The certificate has expired" in msg and self.absolute_iterations ==1:
+                    device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
+                    logger.info("Logging Problem Alert for Domain:%s, Warning:%s", domainnames,msg)
+                    logger.info("Topology: group name=%s, node name=%s", group.name, device.name)
+                    
+                    device.report_error_event(title="CRITICAL:SSL Certificate has expired",
+                                description="The SSL Certificate has expired",
+                                properties={"exp_date": str(expiration)})
                 else:
                     logger.info("error occured:%s",msg)   
 
