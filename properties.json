@@ -3,6 +3,6 @@
   "period": 14,
   "show_checks": true,
   "event_type": "Error",
-  "hosts": "",
-  "alert_period": 7
+  "hosts": "www.google.com",
+  "alert_period": 60
 }

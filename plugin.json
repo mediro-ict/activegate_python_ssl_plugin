@@ -1,6 +1,6 @@
 {
 	"name": "custom.remote.python.ssl_events",
-	"version": "1.019",
+	"version": "1.020",
 	"type": "python",
 	"entity": "CUSTOM_DEVICE",
 	"metricGroup": "tech.CertificateCheck",
