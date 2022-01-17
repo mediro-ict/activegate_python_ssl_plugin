@@ -10,7 +10,7 @@
 	"source": {
 		"package": "activegate_plugin_certs",
 		"className": "CertsPluginRemote",
-		"install_requires": ["requests","click","pyopenssl","cffi","cryptography"],
+		"install_requires": ["cryptography==2.8","requests","click","pyopenssl==19.1.0","cffi"],
 		"activation": "Remote"
 	},
 	"configUI": {
