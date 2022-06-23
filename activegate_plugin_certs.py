@@ -141,7 +141,11 @@ class CertsPluginRemote(RemoteBasePlugin):
             errors = 0
             domain_msgs = [', '.join(domainnames)]
             print("domainnames: ", domainnames)
-            #days = days_between(str(expiration))
+            days = days_between(str(expiration))
+            print("DAYS:",days)
+            device = group.create_device(identifier= domainnames[0],
+                                                 display_name=domainnames[0])
+            device.absolute(key="days",value=days, dimensions={"Domain":domainnames[0]})                                     
             for level, msg in msgs:
                 
                     
@@ -150,8 +154,8 @@ class CertsPluginRemote(RemoteBasePlugin):
                    
                     days = days_between(str(expiration))
                     
-                    device = group.create_device(identifier= domainnames[0],
-                                                 display_name=domainnames[0])
+                    #device = group.create_device(identifier= domainnames[0],
+                     #                            display_name=domainnames[0])
                     if (self.absolute_iterations ==1):
                         
                         print("Iterations: ", self.absolute_iterations)
@@ -195,12 +199,12 @@ class CertsPluginRemote(RemoteBasePlugin):
                 elif "Valid until" in msg and self.show_checks == True and self.absolute_iterations ==1:
                     days = days_between(str(expiration))
                     if int(days) > int(self.default_expiry_warn):
-                        device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
+                        #device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
                         device.report_custom_annotation_event(description="Certificate for "+ domainnames[0] +" Checked",source=msg)
                         print(self.absolute_iterations)
                 
                 elif "The certificate has expired" in msg and self.absolute_iterations ==1:
-                    device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
+                    #device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
                     logger.info("Logging Problem Alert for Domain:%s, Warning:%s", domainnames,msg)
                     logger.info("Topology: group name=%s, node name=%s", group.name, device.name)
                     

@@ -1,6 +1,6 @@
 {
 	"name": "custom.remote.python.ssl_events",
-	"version": "1.020",
+	"version": "1.022",
 	"type": "python",
 	"entity": "CUSTOM_DEVICE",
 	"metricGroup": "tech.CertificateCheck",
@@ -10,7 +10,7 @@
 	"source": {
 		"package": "activegate_plugin_certs",
 		"className": "CertsPluginRemote",
-		"install_requires": ["cryptography==2.8","requests","click","pyopenssl==19.1.0","cffi"],
+		"install_requires": ["cryptography==2.8","requests","click","pyopenssl==19.1.0","cffi>=1.8"],
 		"activation": "Remote"
 	},
 	"configUI": {
@@ -88,14 +88,26 @@
 	  
 	
     ],
-	"metrics": [{
+	"metrics": [
+    {
 			"entity": "CUSTOM_DEVICE",
 			"timeseries": {
 				"key": "counter",
 				"unit": "Count",
 				"displayname": "Certificate Expiry Check - Events"
 			}
-		}
+		},
+    {
+      "entity": "CUSTOM_DEVICE",
+      "timeseries": {
+          "key": "days",
+          "unit": "Count",
+          "dimensions": [
+            "Domain"
+        ],
+          "displayname": "Days before expiration"
+      }
+  }
 	],
 	"ui": {
 

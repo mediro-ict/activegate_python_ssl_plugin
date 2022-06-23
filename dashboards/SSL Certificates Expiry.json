@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      6
+    ],
+    "clusterVersion": "1.243.146.20220615-081647"
+  },
+  "id": "4ee05e11-ba1a-4e0a-b042-549ac03468c7",
+  "dashboardMetadata": {
+    "name": "SSL Certificates Expiry",
+    "shared": false,
+    "owner": "leon.vanzyl@mediro-ict.co.za"
+  },
+  "tiles": [
+    {
+      "name": "Certificate Expiry",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 0,
+        "width": 1026,
+        "height": 722
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "ext:tech.CertificateCheck.days",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [
+            "Domain"
+          ],
+          "sortBy": "DESC",
+          "filterBy": {
+            "nestedFilters": [],
+            "criteria": []
+          },
+          "limit": 100,
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "HONEYCOMB",
+        "global": {
+          "hideLegend": false
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 14,
+                "color": "#7dc540"
+              },
+              {
+                "value": 7,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": true
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 {
   "poll_interval": 30,
-  "period": 14,
+  "period": 100,
   "show_checks": true,
   "event_type": "Error",
-  "hosts": "www.google.com",
-  "alert_period": 60
+  "hosts": "www.google.com,mediro.kryptos.co.za",
+  "alert_period": 100
 }
