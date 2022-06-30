@@ -4,3 +4,4 @@ deploy/*
 *.pyc
 plugin_deployment/*
 .vscode/settings.json
+activegate_plugin_certs.egg-info/*

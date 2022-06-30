@@ -1,8 +1,8 @@
 {
-  "poll_interval": 30,
-  "period": 100,
+  "poll_interval": 15,
+  "period": 170,
   "show_checks": true,
   "event_type": "Error",
-  "hosts": "www.google.com,mediro.kryptos.co.za",
-  "alert_period": 100
+  "hosts": "pltweblb03:8543,pltprem01.prulife.co.za:8477",
+  "alert_period": 90
 }

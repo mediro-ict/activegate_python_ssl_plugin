@@ -140,13 +140,21 @@ class CertsPluginRemote(RemoteBasePlugin):
             warnings = 0
             errors = 0
             domain_msgs = [', '.join(domainnames)]
+            mt = msgs[0]
+            print("MESSAGE:", ''.join(mt))
             print("domainnames: ", domainnames)
-            days = days_between(str(expiration))
-            print("DAYS:",days)
+            
+            
             device = group.create_device(identifier= domainnames[0],
                                                  display_name=domainnames[0])
-            device.absolute(key="days",value=days, dimensions={"Domain":domainnames[0]})                                     
-            for level, msg in msgs:
+            if "Couldn't fetch certificate for" in ''.join(mt):
+              logger.info(''.join(mt))
+              device.report_custom_annotation_event(description= ''.join(mt) ,source=domainnames[0])
+            else:
+              days = days_between(str(expiration))  
+              print("DAYS:",days)                                   
+              device.absolute(key="days",value=days, dimensions={"Domain":domainnames[0]})                                     
+              for level, msg in msgs:
                 
                     
                 
