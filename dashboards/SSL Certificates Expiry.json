@@ -3,13 +3,19 @@
     "configurationVersions": [
       6
     ],
-    "clusterVersion": "1.243.146.20220615-081647"
+    "clusterVersion": "1.263.130.20230403-150317"
   },
   "id": "4ee05e11-ba1a-4e0a-b042-549ac03468c7",
   "dashboardMetadata": {
     "name": "SSL Certificates Expiry",
     "shared": false,
-    "owner": "leon.vanzyl@mediro-ict.co.za"
+    "owner": "leon.vanzyl@mediro-ict.co.za",
+    "dashboardFilter": {
+      "timeframe": "-24h to now"
+    },
+    "popularity": 8,
+    "tilesNameSize": "medium",
+    "hasConsistentColors": false
   },
   "tiles": [
     {
@@ -19,25 +25,29 @@
       "bounds": {
         "top": 0,
         "left": 0,
-        "width": 1026,
-        "height": 722
+        "width": 798,
+        "height": 494
       },
       "tileFilter": {},
+      "isAutoRefreshDisabled": false,
       "customName": "Data explorer results",
       "queries": [
         {
           "id": "A",
           "metric": "ext:tech.CertificateCheck.days",
+          "spaceAggregation": "AUTO",
           "timeAggregation": "DEFAULT",
           "splitBy": [
-            "Domain"
+            "dt.entity.custom_device"
           ],
           "sortBy": "DESC",
+          "sortByDimension": "",
           "filterBy": {
             "nestedFilters": [],
             "criteria": []
           },
           "limit": 100,
+          "rate": "NONE",
           "enabled": true
         }
       ],
@@ -99,7 +109,228 @@
       },
       "queriesSettings": {
         "resolution": ""
-      }
+      },
+      "metricExpressions": [
+        "resolution=Inf&(ext:tech.CertificateCheck.days:splitBy(\"dt.entity.custom_device\"):sort(value(auto,descending)):limit(100)):names"
+      ]
+    },
+    {
+      "name": "Top list",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 798,
+        "width": 342,
+        "height": 494
+      },
+      "tileFilter": {},
+      "isAutoRefreshDisabled": false,
+      "customName": "Top list",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "ext:tech.CertificateCheck.days",
+          "spaceAggregation": "AUTO",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [
+            "dt.entity.custom_device"
+          ],
+          "sortBy": "DESC",
+          "sortByDimension": "",
+          "filterBy": {
+            "nestedFilters": [],
+            "criteria": []
+          },
+          "limit": 100,
+          "rate": "NONE",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "TOP_LIST",
+        "global": {
+          "hideLegend": false
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 14,
+                "color": "#7dc540"
+              },
+              {
+                "value": 7,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      },
+      "metricExpressions": [
+        "resolution=Inf&(ext:tech.CertificateCheck.days:splitBy(\"dt.entity.custom_device\"):sort(value(auto,descending)):limit(100)):limit(100):names"
+      ]
+    },
+    {
+      "name": "DDU Usage last 24 hours",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 494,
+        "left": 0,
+        "width": 798,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": "-24h to now"
+      },
+      "isAutoRefreshDisabled": false,
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:billing.ddu.metrics.byMetric",
+          "spaceAggregation": "SUM",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "sortBy": "DESC",
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "Metric Key",
+                "filterType": "DIMENSION",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "ext:tech.CertificateCheck.days",
+                    "evaluator": "EQ"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "limit": 100,
+          "rate": "NONE",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": false
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "unitTransform": "auto",
+            "valueFormat": "auto",
+            "properties": {
+              "color": "DEFAULT",
+              "seriesType": "AREA"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      },
+      "metricExpressions": [
+        "resolution=null&(builtin:billing.ddu.metrics.byMetric:filter(and(or(eq(\"Metric Key\",\"ext:tech.CertificateCheck.days\")))):splitBy():sum:sort(value(sum,descending)):limit(100)):limit(100):names"
+      ]
     }
   ]
 }

@@ -3,6 +3,6 @@
   "period": 170,
   "show_checks": true,
   "event_type": "Error",
-  "hosts": "pltweblb03:8543,pltprem01.prulife.co.za:8477",
+  "hosts": "sita.co.za",
   "alert_period": 90
 }

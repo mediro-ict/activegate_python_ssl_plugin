@@ -153,7 +153,7 @@ class CertsPluginRemote(RemoteBasePlugin):
             else:
               days = days_between(str(expiration))  
               print("DAYS:",days)                                   
-              device.absolute(key="days",value=days, dimensions={"Domain":domainnames[0]})                                     
+                                                 
               for level, msg in msgs:
                 
                     
@@ -210,6 +210,8 @@ class CertsPluginRemote(RemoteBasePlugin):
                         #device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
                         device.report_custom_annotation_event(description="Certificate for "+ domainnames[0] +" Checked",source=msg)
                         print(self.absolute_iterations)
+                        device.absolute(key="days",value=days,dimensions={}) #dimensions={"Domain":domainnames[0]})  
+
                 
                 elif "The certificate has expired" in msg and self.absolute_iterations ==1:
                     #device = group.create_device(identifier= domainnames[0],display_name=domainnames[0])
